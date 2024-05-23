@@ -22,6 +22,7 @@ player_sprite_rotated = pygame.transform.rotate(player_sprite_scaled, 5)
 
 # flipping the sprites
 player_sprite_flipped = pygame.transform.flip(player_sprite_scaled, True, False)
+player_sprite_unflipped = pygame.transform.flip(player_sprite_scaled, False, False)
 
 # color configuration
 BLACK = (0, 0, 0)
@@ -31,28 +32,58 @@ BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 
 # inserting characters in the screen
-window.blit(player_sprite_scaled, (400, 300))
-window.blit(bullet_sprite_scaled, (433, 300))
-window.blit(coin_sprite_scaled, (370, 300))
+#window.blit(player_sprite_scaled, (400, 300))
+#window.blit(bullet_sprite_scaled, (433, 300))
+#window.blit(coin_sprite_scaled, (370, 300))
 
-window.blit(player_sprite_rotated, (120, 120))
-window.blit(player_sprite_flipped, (200, 200))
+#window.blit(player_sprite_rotated, (120, 120))
+#window.blit(player_sprite_flipped, (200, 200))
+
+# player's initial coordinates
+player_x = 20
+player_y = 20
+player_facing_left = False
+player_facing_right = False
 
 # updates the screen
-pygame.display.flip()
+#pygame.display.flip()
 
 # main game loop
 game_running = True
 
 while (game_running):
+    window.fill(BLACK)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_running = False
 
+    # TODO fix diagonal movement (moving diagonally is faster)
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_w]:
+        player_y = player_y - 0.2
 
+    if keys[pygame.K_s]:
+        player_y = player_y + 0.2
 
+    if keys[pygame.K_a]:
+        player_facing_left = True
+        player_x = player_x - 0.2
 
+    if keys[pygame.K_d]:
+        player_facing_right = True
+        player_x = player_x + 0.2
 
+    # flipping the player horizontally
+    if player_facing_left:
+        player_sprite_scaled = player_sprite_flipped
+        player_facing_left = False
+
+    if player_facing_right:
+        player_sprite_scaled = player_sprite_unflipped
+        player_facing_right = False
+
+    window.blit(player_sprite_scaled, (player_x, player_y))
+    pygame.display.flip()
 
 pygame.quit()
 
