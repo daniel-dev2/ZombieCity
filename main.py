@@ -5,12 +5,15 @@ pygame.init()
 # window configuration
 RESOLUTION = (800, 600)
 window = pygame.display.set_mode(RESOLUTION)
-pygame.display.set_caption("CityRiot")
+pygame.display.set_caption("ZombieCity")
 
 # image configuration
 player_sprite = pygame.image.load("assets/sprites/player_character.png")
 coin_sprite = pygame.image.load("assets/sprites/coin.png")
 bullet_sprite = pygame.image.load("assets/sprites/bullet.png")
+background_image = pygame.image.load("assets/sprites/city_background.png")
+icon = pygame.image.load("assets/sprites/icon.png")
+pygame.display.set_icon(icon)
 
 # scaling the sprites
 player_sprite_scaled = pygame.transform.scale(player_sprite, (64, 64))
@@ -40,8 +43,8 @@ WHITE = (255, 255, 255)
 #window.blit(player_sprite_flipped, (200, 200))
 
 # player's initial coordinates
-player_x = 20
-player_y = 20
+player_x = 368
+player_y = 268
 player_facing_left = False
 player_facing_right = False
 
@@ -52,26 +55,42 @@ player_facing_right = False
 game_running = True
 
 while (game_running):
-    window.fill(BLACK)
+    window.blit(background_image, (0, 0))
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             game_running = False
 
-    # TODO fix diagonal movement (moving diagonally is faster)
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
-        player_y = player_y - 0.2
+        player_y = player_y - 1
 
     if keys[pygame.K_s]:
-        player_y = player_y + 0.2
+        player_y = player_y + 1
 
     if keys[pygame.K_a]:
         player_facing_left = True
-        player_x = player_x - 0.2
+        player_x = player_x - 1
 
     if keys[pygame.K_d]:
         player_facing_right = True
-        player_x = player_x + 0.2
+        player_x = player_x + 1
+
+    # adjust player speed when moving diagonally
+    if keys[pygame.K_w] and keys[pygame.K_d]:
+        player_y = player_y + 0.25
+        player_x = player_x - 0.25
+
+    if keys[pygame.K_w] and keys[pygame.K_a]:
+        player_y = player_y + 0.25
+        player_x = player_x + 0.25
+
+    if keys[pygame.K_s] and keys[pygame.K_d]:
+        player_y = player_y - 0.25
+        player_x = player_x - 0.25
+
+    if keys[pygame.K_s] and keys[pygame.K_a]:
+        player_y = player_y - 0.25
+        player_x = player_x + 0.25
 
     # flipping the player horizontally
     if player_facing_left:
