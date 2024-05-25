@@ -35,21 +35,55 @@ BLUE = (0, 0, 255)
 WHITE = (255, 255, 255)
 
 # inserting characters in the screen
-#window.blit(player_sprite_scaled, (400, 300))
-#window.blit(bullet_sprite_scaled, (433, 300))
-#window.blit(coin_sprite_scaled, (370, 300))
+# window.blit(player_sprite_scaled, (400, 300))
+# window.blit(bullet_sprite_scaled, (433, 300))
+# window.blit(coin_sprite_scaled, (370, 300))
 
-#window.blit(player_sprite_rotated, (120, 120))
-#window.blit(player_sprite_flipped, (200, 200))
+# window.blit(player_sprite_rotated, (120, 120))
+# window.blit(player_sprite_flipped, (200, 200))
 
-# player's initial coordinates
-player_x = 368
-player_y = 268
+# player configuration
+# player_x = 368
+# player_y = 268
+player_rect = player_sprite_scaled.get_rect()
+player_direction = pygame.math.Vector2()
+player_position = pygame.math.Vector2(player_rect.center)
+player_speed = 1
 player_facing_left = False
 player_facing_right = False
 
-# updates the screen
-#pygame.display.flip()
+# initial player position
+player_position.x = 336
+player_position.y = 236
+
+
+def move(pos, direction, speed, rect):
+    if direction.magnitude() > 0:
+        direction = direction.normalize()
+
+    # player has gone out of horizontal bounds
+    if pos.x < -4.0:
+        pos.x = -4.0
+        rect.centerx = pos.x
+    elif pos.x > 740:
+        pos.x = 740
+        rect.centerx = pos.x
+    # player has gone out of vertical bounds
+    elif pos.y < 124:
+        pos.y = 124
+        rect.centery = pos.y
+    elif pos.y > 536:
+        pos.y = 536
+        rect.centery = pos.y
+    else:
+        # horizontal movement
+        pos.x += direction.x * speed
+        rect.centerx = pos.x
+
+        # vertical movement
+        pos.y += direction.y * speed
+        rect.centery = pos.y
+
 
 # main game loop
 game_running = True
@@ -60,37 +94,35 @@ while (game_running):
         if event.type == pygame.QUIT:
             game_running = False
 
+    # player movement
     keys = pygame.key.get_pressed()
+    # UP and DOWN
     if keys[pygame.K_w]:
-        player_y = player_y - 1
+        player_direction.y = -1
+        move(player_position, player_direction, player_speed, player_rect)
 
-    if keys[pygame.K_s]:
-        player_y = player_y + 1
+    elif keys[pygame.K_s]:
+        player_direction.y = 1
+        move(player_position, player_direction, player_speed, player_rect)
 
+    else:
+        player_direction.y = 0
+        move(player_position, player_direction, player_speed, player_rect)
+
+    # LEFT and RIGHT
     if keys[pygame.K_a]:
         player_facing_left = True
-        player_x = player_x - 1
+        player_direction.x = -1
+        move(player_position, player_direction, player_speed, player_rect)
 
-    if keys[pygame.K_d]:
+    elif keys[pygame.K_d]:
         player_facing_right = True
-        player_x = player_x + 1
+        player_direction.x = 1
+        move(player_position, player_direction, player_speed, player_rect)
 
-    # adjust player speed when moving diagonally
-    if keys[pygame.K_w] and keys[pygame.K_d]:
-        player_y = player_y + 0.25
-        player_x = player_x - 0.25
-
-    if keys[pygame.K_w] and keys[pygame.K_a]:
-        player_y = player_y + 0.25
-        player_x = player_x + 0.25
-
-    if keys[pygame.K_s] and keys[pygame.K_d]:
-        player_y = player_y - 0.25
-        player_x = player_x - 0.25
-
-    if keys[pygame.K_s] and keys[pygame.K_a]:
-        player_y = player_y - 0.25
-        player_x = player_x + 0.25
+    else:
+        player_direction.x = 0
+        move(player_position, player_direction, player_speed, player_rect)
 
     # flipping the player horizontally
     if player_facing_left:
@@ -101,9 +133,7 @@ while (game_running):
         player_sprite_scaled = player_sprite_unflipped
         player_facing_right = False
 
-    window.blit(player_sprite_scaled, (player_x, player_y))
+    window.blit(player_sprite_scaled, player_position)
     pygame.display.flip()
 
 pygame.quit()
-
-
