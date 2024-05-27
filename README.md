@@ -1,20 +1,24 @@
 # Zombie City
 
-Zombie City is a short game made in Python using the Pygame library.
+Zombie City é um jogo curto feito em Python utilizando a biblioteca Pygame.
 
-## Controls
+## Controles
 
-W - move up  
-S - move down  
-A - move left  
-D - move right
+W - mover para cima   
+S - mover para baixo  
+A - move para a esquerda  
+D - move mover para a direita
 
-## Installation
+## Instalação
 
-In order to run Zombie City your computer needs to have [Python](https://www.python.org/) installed. Be sure to check "Add 
-Python to PATH" in order for the game to work properly.
+Para rodar Zombie City será necessário ter [Python](https://www.python.org/) e a biblioteca [Pygame](https://www.pygame.org/news) instalados no seu computador. Certifique-se de checar a opção "Add python to PATH".
 
-After installing python, or if you've already had installed it, open your command prompt and run the following:  
+
+Após ter instalado python, ou se você já o tem instalado, abra o prompt de comando e digite o código a seguir: 
+
 ```sh
-pip install pygame
+py -m pip install -U pygame --user
 ```
+
+Então, baixe o repositório no seu computador e execute o arquivo main.py. Talvez seja necessário executar o arquivo main.py mais de uma vez para a compilação do código.  
+![](download.png)
