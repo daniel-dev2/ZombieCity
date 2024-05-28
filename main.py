@@ -57,7 +57,9 @@ player_position = pygame.math.Vector2(player_rect.center)
 player_speed = 1
 player_facing_left = False
 player_facing_right = False
-
+player_health = 10
+player_last_time_hit = pygame.time.get_ticks()
+player_hit_cooldown = 1000
 # initial player position
 player_position.x = 336
 player_position.y = 236
@@ -91,22 +93,25 @@ def move(pos, direction, speed, rect):
         rect.centery = pos.y
 
 
-zombie_rect = zombie_sprite.get_rect()
-heavy_rect = heavy_sprite.get_rect()
-
-zombie1 = Zombie(0.3, zombie_sprite, zombie_rect, pygame.math.Vector2(), pygame.math.Vector2(zombie_rect.center))
-zombie2 = Zombie(0.4, zombie_sprite, zombie_rect, pygame.math.Vector2(), pygame.math.Vector2(zombie_rect.center))
-zombie3 = Zombie(0.5, zombie_sprite, zombie_rect, pygame.math.Vector2(), pygame.math.Vector2(zombie_rect.center))
-zombie4 = Zombie(0.6, zombie_sprite, zombie_rect, pygame.math.Vector2(), pygame.math.Vector2(zombie_rect.center))
-zombie5 = Zombie(0.5, zombie_sprite, zombie_rect, pygame.math.Vector2(), pygame.math.Vector2(zombie_rect.center))
-zombie6 = Zombie(0.3, zombie_sprite, zombie_rect, pygame.math.Vector2(), pygame.math.Vector2(zombie_rect.center))
-zombie7 = Zombie(0.2, heavy_sprite, heavy_rect, pygame.math.Vector2(), pygame.math.Vector2(heavy_rect.center))
+zombie1 = Zombie(0.3, zombie_sprite, zombie_sprite.get_rect(), pygame.math.Vector2(),
+                 pygame.math.Vector2(zombie_sprite.get_rect().center))
+zombie2 = Zombie(0.4, zombie_sprite, zombie_sprite.get_rect(), pygame.math.Vector2(),
+                 pygame.math.Vector2(zombie_sprite.get_rect().center))
+zombie3 = Zombie(0.5, zombie_sprite, zombie_sprite.get_rect(), pygame.math.Vector2(),
+                 pygame.math.Vector2(zombie_sprite.get_rect().center))
+zombie4 = Zombie(0.6, zombie_sprite, zombie_sprite.get_rect(), pygame.math.Vector2(),
+                 pygame.math.Vector2(zombie_sprite.get_rect().center))
+zombie5 = Zombie(0.5, zombie_sprite, zombie_sprite.get_rect(), pygame.math.Vector2(),
+                 pygame.math.Vector2(zombie_sprite.get_rect().center))
+zombie6 = Zombie(0.3, zombie_sprite, zombie_sprite.get_rect(), pygame.math.Vector2(),
+                 pygame.math.Vector2(zombie_sprite.get_rect().center))
+zombie7 = Zombie(0.2, heavy_sprite, zombie_sprite.get_rect(), pygame.math.Vector2(),
+                 pygame.math.Vector2(zombie_sprite.get_rect().center))
 
 wave1 = [zombie1, zombie2, zombie3, zombie4, zombie5, zombie6, zombie7]
 
 for zombie in wave1:
     zombie.spawn()
-
 
 # main game loop
 game_running = True
@@ -155,11 +160,77 @@ while game_running:
         player_sprite_scaled = player_sprite_unflipped
         player_facing_right = False
 
-    for zombie in wave1:
-        window.blit(zombie.sprite, zombie.pos)
+    # blitting the zombies
+    window.blit(zombie1.sprite, zombie1.pos)
+    window.blit(zombie2.sprite, zombie2.pos)
+    window.blit(zombie3.sprite, zombie3.pos)
+    window.blit(zombie4.sprite, zombie4.pos)
+    window.blit(zombie5.sprite, zombie5.pos)
+    window.blit(zombie6.sprite, zombie6.pos)
+    window.blit(zombie7.sprite, zombie7.pos)
 
-    #print(f'Zombie1 position: {zombie1.pos.x}, {zombie1.pos.y}')
-    #print(f'Zombie2 position: {zombie2.pos.x}, {zombie2.pos.y}')
+    # TODO fix this
+    if zombie1.collided_with_player(player_rect):
+        now = pygame.time.get_ticks()
+        if now - player_last_time_hit >= player_hit_cooldown:
+            player_last_time_hit = now
+            player_health -= 2
+            print("ZOMBIE 1 COLLIDED WITH PLAYER")
+            print(player_health)
+
+    if zombie2.collided_with_player(player_rect):
+        now = pygame.time.get_ticks()
+        if now - player_last_time_hit >= player_hit_cooldown:
+            player_last_time_hit = now
+            player_health -= 2
+            print("ZOMBIE 2 COLLIDED WITH PLAYER")
+            print(player_health)
+
+    if zombie3.collided_with_player(player_rect):
+        now = pygame.time.get_ticks()
+        if now - player_last_time_hit >= player_hit_cooldown:
+            player_last_time_hit = now
+            player_health -= 2
+            print("ZOMBIE 3 COLLIDED WITH PLAYER")
+            print(player_health)
+
+    if zombie4.collided_with_player(player_rect):
+        now = pygame.time.get_ticks()
+        if now - player_last_time_hit >= player_hit_cooldown:
+            player_last_time_hit = now
+            player_health -= 2
+            print("ZOMBIE 4 COLLIDED WITH PLAYER")
+            print(player_health)
+
+    if zombie5.collided_with_player(player_rect):
+        now = pygame.time.get_ticks()
+        if now - player_last_time_hit >= player_hit_cooldown:
+            player_last_time_hit = now
+            player_health -= 2
+            print("ZOMBIE 5 COLLIDED WITH PLAYER")
+            print(player_health)
+
+    if zombie6.collided_with_player(player_rect):
+        now = pygame.time.get_ticks()
+        if now - player_last_time_hit >= player_hit_cooldown:
+            player_last_time_hit = now
+            player_health -= 2
+            print("ZOMBIE 6 COLLIDED WITH PLAYER")
+            print(player_health)
+
+    if zombie7.collided_with_player(player_rect):
+        now = pygame.time.get_ticks()
+        if now - player_last_time_hit >= player_hit_cooldown:
+            player_last_time_hit = now
+            player_health -= 2
+            print("ZOMBIE 7 COLLIDED WITH PLAYER")
+            print(player_health)
+
+    if player_health <= 0:
+        game_running = False
+
+    # print(f'Zombie1 position: {zombie1.pos.x}, {zombie1.pos.y}')
+    # print(f'Zombie2 position: {zombie2.pos.x}, {zombie2.pos.y}')
     window.blit(player_sprite_scaled, player_position)
     pygame.display.flip()
 

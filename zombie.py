@@ -71,3 +71,11 @@ class Zombie:
             self.direction.y = 1
             self.pos.y += self.direction.y * self.speed
             self.rect.centery = self.pos.y
+
+    def collided_with_player(self, player_rect):
+        if self.rect.center == player_rect.center:
+            return True
+
+        return False
+
+
