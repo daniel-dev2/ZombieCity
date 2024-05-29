@@ -91,7 +91,7 @@ while game_running:
         zombie.move(player.position)
         zombie.collision(player)
 
-    print(player.health)
+
     if player.health <= 0:
         game_running = False
 
