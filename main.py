@@ -36,7 +36,7 @@ for zombie in wave1:
 
 # main game loop
 game_running = True
-
+# TODO further refactoring
 while game_running:
     window.blit(background_image, (0, 0))
     player.move()
