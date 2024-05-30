@@ -32,8 +32,8 @@ class Player:
         self.bullet_sprite_unflipped = pygame.transform.flip(self.bullet_sprite, False, False)
         self.bullet_rect = self.bullet_sprite.get_rect()
         self.bullet_pos = pygame.math.Vector2(self.bullet_rect.center)
-        self.bullet_pos.x = 0
-        self.bullet_pos.y = 0
+        self.bullet_pos.x = self.position.x + 64
+        self.bullet_pos.y = self.position.y + 29
         self.bullet_facing_left = False
         self.bullet_facing_right = False
 

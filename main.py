@@ -73,11 +73,15 @@ while game_running:
     if player.facing_left:
         player.sprite = player.sprite_flipped
         player.bullet_sprite = player.bullet_sprite_flipped
+        player.bullet_pos.x = player.position.x - 16
+        player.bullet_pos.y = player.position.y + 28
         player.facing_left = False
 
     if player.facing_right:
         player.sprite = player.sprite_unflipped
         player.bullet_sprite = player.bullet_sprite_unflipped
+        player.bullet_pos.x = player.position.x + 64
+        player.bullet_pos.y = player.position.y + 29
         player.facing_right = False
 
     # player shooting logic
@@ -89,7 +93,7 @@ while game_running:
         elif player.facing_right:
             print("Player is facing right")
 
-        window.blit(player.bullet_sprite, (player.position.x + 64, player.position.y + 29))
+        window.blit(player.bullet_sprite, (player.bullet_pos.x, player.bullet_pos.y))
 
 
     # blitting the zombies
