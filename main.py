@@ -72,11 +72,25 @@ while game_running:
     # flipping the player horizontally
     if player.facing_left:
         player.sprite = player.sprite_flipped
+        player.bullet_sprite = player.bullet_sprite_flipped
         player.facing_left = False
 
     if player.facing_right:
         player.sprite = player.sprite_unflipped
+        player.bullet_sprite = player.bullet_sprite_unflipped
         player.facing_right = False
+
+    # player shooting logic
+    if keys[pygame.K_SPACE]:
+        player.shoot(zombie1)
+        if player.facing_left:
+            print("Player is facing left")
+
+        elif player.facing_right:
+            print("Player is facing right")
+
+        window.blit(player.bullet_sprite, (player.position.x + 64, player.position.y + 29))
+
 
     # blitting the zombies
     window.blit(zombie1.sprite, zombie1.pos)

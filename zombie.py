@@ -10,6 +10,7 @@ class Zombie:
         self.rect = self.sprite.get_rect()
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
+        self.hp = 4
 
     def spawn(self):
         LEFT_BORDER_X = (-20, 0)
