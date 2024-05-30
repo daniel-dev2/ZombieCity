@@ -69,5 +69,13 @@ class Player:
             self.rect.centery = self.position.y
 
     def shoot(self, zombie) -> None:
+        self.bullet_pos.x += 1.5
+        self.bullet_rect.centerx = self.bullet_pos.x
+        self.bullet_pos.y = self.position.y + 29
+        # bullet has gone out of horizontal bounds
+        if self.bullet_pos.x > 784:
+            self.bullet_pos.x = self.position.x + 64
+            self.bullet_rect.centerx = self.bullet_pos.x
+
         if self.bullet_rect.colliderect(zombie.rect):
             zombie.hp -= 2

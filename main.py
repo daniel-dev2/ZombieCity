@@ -87,14 +87,8 @@ while game_running:
     # player shooting logic
     if keys[pygame.K_SPACE]:
         player.shoot(zombie1)
-        if player.facing_left:
-            print("Player is facing left")
-
-        elif player.facing_right:
-            print("Player is facing right")
-
+        # TODO implement left leaning bullet logic
         window.blit(player.bullet_sprite, (player.bullet_pos.x, player.bullet_pos.y))
-
 
     # blitting the zombies
     window.blit(zombie1.sprite, zombie1.pos)
@@ -108,7 +102,6 @@ while game_running:
     for zombie in wave1:
         zombie.move(player.position)
         zombie.collision(player)
-
 
     if player.health <= 0:
         game_running = False
