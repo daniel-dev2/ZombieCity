@@ -32,10 +32,9 @@ class Player:
         self.bullet_sprite_unflipped = pygame.transform.flip(self.bullet_sprite, False, False)
         self.bullet_rect = self.bullet_sprite.get_rect()
         self.bullet_pos = pygame.math.Vector2(self.bullet_rect.center)
-        self.bullet_pos.x = self.position.x + 64
-        self.bullet_pos.y = self.position.y + 29
         self.bullet_facing_left = False
         self.bullet_facing_right = False
+        self.bullet_active = False
 
     def move(self):
         if self.direction.magnitude() > 0:
@@ -69,13 +68,27 @@ class Player:
             self.rect.centery = self.position.y
 
     def shoot(self, zombie) -> None:
-        self.bullet_pos.x += 1.5
+        if not self.bullet_active:
+            # set bullet's initial position
+            self.bullet_pos.x = self.position.x + (64 if self.bullet_facing_right else -16)
+            self.bullet_pos.y = self.position.y + 29
+            self.bullet_active = True
+
+        if self.bullet_facing_right:
+            self.bullet_pos.x += 1.5
+        else:
+            self.bullet_pos.x -= 1.5
+
         self.bullet_rect.centerx = self.bullet_pos.x
-        self.bullet_pos.y = self.position.y + 29
+
         # bullet has gone out of horizontal bounds
-        if self.bullet_pos.x > 784:
-            self.bullet_pos.x = self.position.x + 64
-            self.bullet_rect.centerx = self.bullet_pos.x
+        if self.bullet_pos.x > 784 or self.bullet_pos.x < -16:
+            self.bullet_active = False
 
         if self.bullet_rect.colliderect(zombie.rect):
             zombie.hp -= 2
+            self.bullet_active = False
+
+    def set_bullet_direction(self, facing_left: bool, facing_right: bool) -> None:
+        self.bullet_facing_left = facing_left
+        self.bullet_facing_right = facing_right

@@ -45,6 +45,10 @@ while game_running:
         if event.type == pygame.QUIT:
             game_running = False
 
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                player.shoot(zombie1)
+
     # player movement
     keys = pygame.key.get_pressed()
     # UP and DOWN
@@ -73,21 +77,17 @@ while game_running:
     if player.facing_left:
         player.sprite = player.sprite_flipped
         player.bullet_sprite = player.bullet_sprite_flipped
-        player.bullet_pos.x = player.position.x - 16
-        player.bullet_pos.y = player.position.y + 28
+        player.set_bullet_direction(True, False)
         player.facing_left = False
 
     if player.facing_right:
         player.sprite = player.sprite_unflipped
         player.bullet_sprite = player.bullet_sprite_unflipped
-        player.bullet_pos.x = player.position.x + 64
-        player.bullet_pos.y = player.position.y + 29
+        player.set_bullet_direction(False, True)
         player.facing_right = False
 
-    # player shooting logic
-    if keys[pygame.K_SPACE]:
-        player.shoot(zombie1)
-        # TODO implement left leaning bullet logic
+    # blitting the bullet
+    if player.bullet_active:
         window.blit(player.bullet_sprite, (player.bullet_pos.x, player.bullet_pos.y))
 
     # blitting the zombies
@@ -101,7 +101,7 @@ while game_running:
 
     for zombie in wave1:
         zombie.move(player.position)
-        zombie.collision(player)
+        # zombie.collision(player)
 
     if player.health <= 0:
         game_running = False
