@@ -47,7 +47,7 @@ while game_running:
 
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                player.shoot(zombie1)
+                player.shoot()
 
     # player movement
     keys = pygame.key.get_pressed()
@@ -88,6 +88,7 @@ while game_running:
 
     # blitting the bullet
     if player.bullet_active:
+        player.move_bullet(zombie1)
         window.blit(player.bullet_sprite, (player.bullet_pos.x, player.bullet_pos.y))
 
     # blitting the zombies

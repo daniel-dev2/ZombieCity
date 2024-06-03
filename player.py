@@ -67,13 +67,14 @@ class Player:
             self.position.y += self.direction.y * self.speed
             self.rect.centery = self.position.y
 
-    def shoot(self, zombie) -> None:
+    def shoot(self) -> None:
         if not self.bullet_active:
             # set bullet's initial position
             self.bullet_pos.x = self.position.x + (64 if self.bullet_facing_right else -16)
             self.bullet_pos.y = self.position.y + 29
             self.bullet_active = True
 
+    def move_bullet(self, zombie) -> None:
         if self.bullet_facing_right:
             self.bullet_pos.x += 1.5
         else:
