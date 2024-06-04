@@ -91,16 +91,9 @@ while game_running:
         player.move_bullet(zombie1)
         window.blit(player.bullet_sprite, (player.bullet_pos.x, player.bullet_pos.y))
 
-    # blitting the zombies
-    window.blit(zombie1.sprite, zombie1.pos)
-    window.blit(zombie2.sprite, zombie2.pos)
-    window.blit(zombie3.sprite, zombie3.pos)
-    window.blit(zombie4.sprite, zombie4.pos)
-    window.blit(zombie5.sprite, zombie5.pos)
-    window.blit(zombie6.sprite, zombie6.pos)
-    window.blit(zombie7.sprite, zombie7.pos)
-
     for zombie in wave1:
+        if zombie.hp > 0:
+            window.blit(zombie.sprite, zombie.pos)
         zombie.move(player.position)
         # zombie.collision(player)
 
