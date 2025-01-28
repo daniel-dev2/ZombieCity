@@ -6,8 +6,8 @@ Zombie City é um jogo curto feito em Python utilizando a biblioteca Pygame.
 
 W - mover para cima   
 S - mover para baixo  
-A - move para a esquerda  
-D - move mover para a direita
+A - mover para a esquerda  
+D - mover para a direita
 
 ## Instalação
 
